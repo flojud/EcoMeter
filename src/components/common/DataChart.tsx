@@ -1,20 +1,29 @@
-import { Slider, Stack, Typography } from "@mui/material";
+import { Box, Slider, Stack } from "@mui/material";
 import { ChartsReferenceLine, LineChart, ShowMarkParams } from "@mui/x-charts";
 import { useEffect, useState } from "react";
+import { IDataChartsRefences } from "../../interfaces/Types";
+import Title from "./Title";
 
 interface DataChartsProps {
   title: String;
   dates: Date[];
   data: number[];
+  referenceLines?: IDataChartsRefences;
 }
 
-const DataCharts = ({ title, dates, data }: DataChartsProps) => {
+const DataCharts = ({
+  title,
+  dates,
+  data,
+  referenceLines,
+}: DataChartsProps) => {
   const valueFormatter = (date: Date) =>
     date.toLocaleDateString("en-DE", {
       month: "2-digit",
       day: "2-digit",
     });
 
+  // show mark every 10 days on the x-axis of the chart
   const showMark = (params: ShowMarkParams) => {
     const { position } = params as ShowMarkParams<Date>;
 
@@ -23,7 +32,6 @@ const DataCharts = ({ title, dates, data }: DataChartsProps) => {
     const oneDay = 1000 * 60 * 60 * 24;
     const dayOfYear = Math.floor(diff / oneDay);
 
-    // show mark every 10 days
     return dayOfYear % 10 === 0;
   };
 
@@ -31,10 +39,14 @@ const DataCharts = ({ title, dates, data }: DataChartsProps) => {
   const minDistance = 10;
   const [zoom, setZoom] = useState<number[]>([0, minDistance]);
 
+  // set the zoom to the last 10 days
   useEffect(() => {
-    setZoom([0, dates.length]);
+    const from = dates.length > minDistance ? dates.length - minDistance : 0;
+    const to = dates.length > minDistance ? dates.length : minDistance;
+    setZoom([from, to]);
   }, [dates]);
 
+  // zoom in the chart by dragging the slider thumbs and prevent the thumbs from overlapping
   const handleZoom = (
     event: Event,
     newValue: number | number[],
@@ -56,50 +68,84 @@ const DataCharts = ({ title, dates, data }: DataChartsProps) => {
       setZoom(newValue as number[]);
     }
   };
+
   return (
-    <Stack
-      direction="column"
-      justifyContent="flex-start"
-      alignItems="center"
-      width="100%"
-    >
-      <Typography variant="h4">{title}</Typography>
-      <LineChart
-        xAxis={[
-          {
-            data: dates,
-            scaleType: "time",
-            valueFormatter,
-            min: dates[zoom[0]],
-            max: dates[zoom[1]],
-          },
-        ]}
-        series={[{ data: data, showMark }]}
-        height={200}
+    <Box sx={{ width: "100%" }}>
+      <Stack
+        direction="column"
+        justifyContent="flex-start"
+        alignItems="center"
+        width="100%"
       >
-        <ChartsReferenceLine
-          y={2000}
-          lineStyle={{ stroke: "red", strokeWidth: 0.5, strokeDasharray: 4 }}
+        <Title text={title} />
+        <LineChart
+          xAxis={[
+            {
+              data: dates,
+              scaleType: "time",
+              valueFormatter,
+              min: dates[zoom[0]],
+              max: dates[zoom[1]],
+            },
+          ]}
+          series={[{ data: data, area: true, showMark }]}
+          height={200}
+          sx={{
+            "& .MuiAreaElement-root": {
+              fill: "url('#myGradient')",
+            },
+          }}
+        >
+          {referenceLines?.red && (
+            <ChartsReferenceLine
+              y={referenceLines.red || 0}
+              lineStyle={{
+                stroke: "red",
+                strokeWidth: 0.5,
+                strokeDasharray: 4,
+              }}
+            />
+          )}
+          {referenceLines?.orange && (
+            <ChartsReferenceLine
+              y={referenceLines.orange}
+              lineStyle={{
+                stroke: "orange",
+                strokeWidth: 0.5,
+                strokeDasharray: 4,
+              }}
+            />
+          )}
+          {referenceLines?.green && (
+            <ChartsReferenceLine
+              y={referenceLines.green}
+              lineStyle={{
+                stroke: "green",
+                strokeWidth: 0.5,
+                strokeDasharray: 4,
+              }}
+            />
+          )}
+
+          <defs>
+            <linearGradient id="myGradient" gradientTransform="rotate(90)">
+              <stop offset="5%" stopColor="hsla(189, 100%, 45%, 1)" />
+              <stop offset="50%" stopColor="cubic-bezier(0.2, 0.02, 0, 1)" />
+              <stop offset="95%" stopColor="hsla(210, 100%, 45%, 0)" />
+            </linearGradient>
+          </defs>
+        </LineChart>
+        <Slider
+          size="small"
+          value={zoom}
+          onChange={handleZoom}
+          valueLabelDisplay="auto"
+          min={0}
+          max={dates.length}
+          sx={{ px: 4 }}
         />
-        <ChartsReferenceLine
-          y={1000}
-          lineStyle={{ stroke: "orange", strokeWidth: 0.5, strokeDasharray: 4 }}
-        />
-        <ChartsReferenceLine
-          y={500}
-          lineStyle={{ stroke: "green", strokeWidth: 0.5, strokeDasharray: 4 }}
-        />
-      </LineChart>
-      <Slider
-        size="small"
-        value={zoom}
-        onChange={handleZoom}
-        valueLabelDisplay="auto"
-        min={0}
-        max={dates.length}
-        sx={{ px: 4 }}
-      />
-    </Stack>
+      </Stack>
+    </Box>
   );
 };
 export default DataCharts;

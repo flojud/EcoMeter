@@ -20,6 +20,7 @@ import {
   setRuntime,
   setWorkingPrice,
 } from "../../store/slices/settings/electricySettingsSlice";
+import * as References from "../../utils/consumptionReferences";
 
 interface ElectricyProps {
   onUpdate: () => void;
@@ -43,16 +44,16 @@ const Electricy = ({ onUpdate }: ElectricyProps) => {
     dispatch(setConsumptionType(newAlignment));
     switch (newAlignment) {
       case "single":
-        dispatch(setConsumption(1500));
+        dispatch(setConsumption(References.ELECTRICY_SINGLE));
         break;
       case "couple":
-        dispatch(setConsumption(2500));
+        dispatch(setConsumption(References.ELECTRICY_COUPLE));
         break;
       case "smallFamily":
-        dispatch(setConsumption(3500));
+        dispatch(setConsumption(References.ELECTRICY_SMALLFAMILY));
         break;
       case "largeFamily":
-        dispatch(setConsumption(4250));
+        dispatch(setConsumption(References.ELECTRICY_LARGEFAMILY));
         break;
       default:
         break;

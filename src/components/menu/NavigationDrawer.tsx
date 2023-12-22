@@ -23,7 +23,7 @@ const NavigationDrawer = () => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          height: "100vh",
+          height: "100%",
           minHeight: "90vh",
           p: 2,
           mb: 8,

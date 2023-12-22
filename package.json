@@ -24,6 +24,8 @@
     "dayjs": "^1.11.9",
     "echarts": "^5.4.2",
     "echarts-for-react": "^3.0.2",
+    "embla-carousel-autoplay": "^8.0.0-rc15",
+    "embla-carousel-react": "^8.0.0-rc15",
     "firebase": "^9.23.0",
     "ga-4-react": "^0.1.281",
     "react": "^18.2.0",

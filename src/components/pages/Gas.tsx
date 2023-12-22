@@ -1,10 +1,12 @@
 import { Stack } from "@mui/material";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import { IConsumption } from "../../interfaces/Types";
+import { CurrencyUnit, IConsumption, MeterType } from "../../interfaces/Types";
 import { useAppSelector } from "../../store/hooks";
+import * as References from "../../utils/consumptionReferences";
 import { interpolateMissingDays } from "../../utils/interpolateMissingDays";
 import DataCharts from "../common/DataChart";
+import ExpensesFacts from "../common/ExpensesFacts";
 
 const Gas = () => {
   const { meters } = useAppSelector((state) => state.meter);
@@ -18,7 +20,6 @@ const Gas = () => {
   // data is loaded from the database and hold in redux store, the interpolation is done here
   useEffect(() => {
     if (meters) setData(interpolateMissingDays(meters));
-    console.debug("meters", meters);
   }, [meters]);
 
   // as soon as the data is interpolated, set the meter value and consumption for the chart
@@ -28,7 +29,6 @@ const Gas = () => {
       setMeterValue(data.map((item) => item.meterValue));
       setDates(data.map((item) => dayjs(item.timestamp * 1000).toDate()));
     }
-    console.debug("data", data);
   }, [data]);
 
   return (
@@ -36,13 +36,26 @@ const Gas = () => {
       direction="column"
       justifyContent="flex-start"
       alignItems="center"
-      spacing={2}
+      spacing={4}
     >
-      {meterValue && (
-        <DataCharts title="Meter reading" dates={dates} data={meterValue} />
+      {data && (
+        <ExpensesFacts
+          title="Your Consumption Insights"
+          data={data}
+          type={MeterType.GAS}
+          unit={CurrencyUnit.M3}
+        />
       )}
       {consumption && (
-        <DataCharts title="Consumption" dates={dates} data={consumption} />
+        <DataCharts
+          title="Consumption"
+          dates={dates}
+          data={consumption}
+          referenceLines={References.GAS_CONSUMPTION_REF}
+        />
+      )}
+      {meterValue && (
+        <DataCharts title="Meter reading" dates={dates} data={meterValue} />
       )}
     </Stack>
   );

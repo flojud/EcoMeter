@@ -47,8 +47,6 @@ export enum MeterType {
   GAS = "gas",
   ELECTRICITY = "electricity",
   WATER = "water",
-  HEAT = "heat",
-  OTHER = "other",
 }
 
 export enum CurrencyUnit {
@@ -69,6 +67,13 @@ export interface IConsumption {
   timestamp: number;
   meterValue: number;
   consumption?: number;
+}
+
+export interface IConsumptionAvg {
+  avgAllTime: number;
+  avgLast7Days: number;
+  avgLast30Days: number;
+  avgLast365Days: number;
 }
 
 export interface IGasSettingsState {
@@ -102,4 +107,22 @@ export interface ISettings {
   gas: IGasSettingsState;
   electricity: IElectricySettingsState;
   water: IWaterSettingsState;
+}
+
+export interface IDataChartsRefences {
+  red: number;
+  orange: number;
+  green: number;
+}
+
+export interface ICarousleSlideBox {
+  title: string;
+  consumption: string;
+  costs: string;
+}
+
+export interface IExpenseEstimate {
+  last7Days: number;
+  last30Days: number;
+  last365Days: number;
 }

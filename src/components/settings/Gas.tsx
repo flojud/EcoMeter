@@ -20,6 +20,7 @@ import {
   setRuntime,
   setWorkingPrice,
 } from "../../store/slices/settings/gasSettingsSlice";
+import * as References from "../../utils/consumptionReferences";
 
 interface GasProps {
   onUpdate: () => void;
@@ -43,16 +44,16 @@ const Gas = ({ onUpdate }: GasProps) => {
     dispatch(setConsumptionType(newAlignment));
     switch (newAlignment) {
       case "s":
-        dispatch(setConsumption(5000));
+        dispatch(setConsumption(References.GAS_S));
         break;
       case "m":
-        dispatch(setConsumption(1200));
+        dispatch(setConsumption(References.GAS_M));
         break;
       case "l":
-        dispatch(setConsumption(18000));
+        dispatch(setConsumption(References.GAS_L));
         break;
       case "xl":
-        dispatch(setConsumption(35000));
+        dispatch(setConsumption(References.GAS_XL));
         break;
       default:
         break;

@@ -24,7 +24,12 @@ const ActionDial = () => {
 
   return item === 1 || item === 2 || item === 3 ? (
     <SpeedDial
-      sx={{ position: "absolute", bottom: 72, right: 24, zIndex: 99 }}
+      sx={{
+        position: "fixed",
+        right: "10%",
+        bottom: "10%",
+        zIndex: 99,
+      }}
       icon={<SpeedDialIcon />}
       ariaLabel="Action Dial"
     >

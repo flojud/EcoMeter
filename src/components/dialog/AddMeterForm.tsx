@@ -69,9 +69,7 @@ const AddMeterForm = () => {
     (value) =>
       (meterType === MeterType.GAS && value === CurrencyUnit.M3) ||
       (meterType === MeterType.ELECTRICITY && value === CurrencyUnit.KWH) ||
-      (meterType === MeterType.WATER && value === CurrencyUnit.M3) ||
-      (meterType === MeterType.HEAT && value === CurrencyUnit.KWH) ||
-      meterType === MeterType.OTHER
+      (meterType === MeterType.WATER && value === CurrencyUnit.M3)
   );
 
   return (
