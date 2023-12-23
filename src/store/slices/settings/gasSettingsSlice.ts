@@ -8,6 +8,8 @@ const initialState: IGasSettingsState = {
   basicPrice: 11.91,
   contractDate: null,
   runtime: 12,
+  calorificValue: 11.512,
+  zNumber: 0.9374,
 };
 
 export const gasSettingsSlice = createSlice({
@@ -32,6 +34,12 @@ export const gasSettingsSlice = createSlice({
     setRuntime: (state, action) => {
       state.runtime = action.payload;
     },
+    setCalorificValue: (state, action) => {
+      state.calorificValue = action.payload;
+    },
+    setZNumber: (state, action) => {
+      state.zNumber = action.payload;
+    },
   },
 });
 
@@ -42,6 +50,8 @@ export const {
   setBasicPrice,
   setContractDate,
   setRuntime,
+  setCalorificValue,
+  setZNumber,
 } = gasSettingsSlice.actions;
 
 export default gasSettingsSlice.reducer;

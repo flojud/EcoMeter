@@ -1,19 +1,9 @@
 import { Button, Stack, Typography } from "@mui/material";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContextProvider";
-import useFirebase from "../../hooks/useFirebase";
 
 const Home = () => {
   const authContext = useContext(AuthContext);
-  const { UpdateDataIfOlderThan5Minutes } = useFirebase();
-
-  useEffect(() => {
-    // check if the user is logged in
-    if (authContext !== null && authContext.loggedIn) {
-      // check if the data is older than 5 minutes
-      UpdateDataIfOlderThan5Minutes();
-    }
-  }, [authContext, UpdateDataIfOlderThan5Minutes]);
 
   return (
     <>

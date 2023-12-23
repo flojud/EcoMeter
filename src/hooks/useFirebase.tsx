@@ -26,6 +26,16 @@ import {
 } from "../store/slices/settings/gasSettingsSlice";
 
 import {
+  setElectricyExpenses,
+  setElectricySampledMeters,
+  setElectricyStats,
+} from "../store/slices/electricySlice";
+import {
+  setGasExpenses,
+  setGasSampledMeters,
+  setGasStats,
+} from "../store/slices/gasSlice";
+import {
   setBasicPrice as _electricy_basicPrice,
   setConsumption as _electricy_consumption,
   setConsumptionType as _electricy_consumptionType,
@@ -41,7 +51,20 @@ import {
   setBasicMonthCharge as _water_basicMonthCharge,
   setSquareMeters as _water_squareMeter,
 } from "../store/slices/settings/waterSettingsSlice";
+import {
+  setWaterExpenses,
+  setWaterSampledMeters,
+  setWaterStats,
+} from "../store/slices/waterSlice";
+import {
+  calculateConsumptionStats,
+  calculateElectricityExpenses,
+  calculateGasExpenses,
+  calculateWaterExpenses,
+  converGasMetertM3ToKWh,
+} from "../utils/calculateConsumptionStats";
 import { toDayjsObject } from "../utils/dateUtils";
+import { interpolateMissingDays } from "../utils/interpolateMissingDays";
 
 function useFirebase() {
   const notifyContext = useContext(NotificationContext);
@@ -50,6 +73,7 @@ function useFirebase() {
 
   const user = authContext!.user as User;
   const { lastUpdateTime } = useAppSelector((state) => state.meter);
+  const settings = useAppSelector((state) => state.settings);
 
   const GetAllMeters = () => {
     const result: IMeter[] = [];
@@ -64,6 +88,93 @@ function useFirebase() {
       .finally(() => {
         // Update the store
         dispatch(setMeters(result));
+
+        /*
+         Start of Gas calculations
+        */
+
+        // Get only the gas meters
+        const gasMeters = result.filter(
+          (item) => item.meterType === MeterType.GAS
+        );
+
+        // convert m3 to kwh
+        converGasMetertM3ToKWh(
+          gasMeters,
+          settings.gas.calorificValue,
+          settings.gas.zNumber
+        );
+
+        // interpolate the missing days in between the data points
+        const sampledGasMeters = interpolateMissingDays(gasMeters);
+        dispatch(setGasSampledMeters(sampledGasMeters));
+
+        // Calculate the consumption stats
+        const gasStats = calculateConsumptionStats(sampledGasMeters);
+        dispatch(setGasStats(gasStats));
+
+        // Calculate the expenses
+        const gasExpenses = calculateGasExpenses(
+          gasStats,
+          settings.gas.basicPrice,
+          settings.gas.workingPrice
+        );
+        dispatch(setGasExpenses(gasExpenses));
+
+        /*
+         Start of Water calculations
+        */
+
+        // Get only the gas meters
+        const waterMeters = result.filter(
+          (item) => item.meterType === MeterType.WATER
+        );
+
+        // interpolate the missing days in between the data points
+        const sampledWaterMeters = interpolateMissingDays(waterMeters);
+        dispatch(setWaterSampledMeters(sampledWaterMeters));
+
+        // Calculate the consumption stats
+        const waterStats = calculateConsumptionStats(sampledWaterMeters);
+        dispatch(setWaterStats(waterStats));
+
+        // Calculate the expenses
+        const waterExpenses = calculateWaterExpenses(
+          waterStats,
+          settings.water.squareMeters,
+          settings.water.basicMonthCharge,
+          settings.water.cubicMeterCharge,
+          settings.water.sewageCubicMeterCharge,
+          settings.water.rainwaterFee
+        );
+        dispatch(setWaterExpenses(waterExpenses));
+
+        /*
+         Start of electricy calculations
+        */
+
+        // Get only the gas meters
+        const electricyMeters = result.filter(
+          (item) => item.meterType === MeterType.ELECTRICITY
+        );
+
+        // interpolate the missing days in between the data points
+        const sampledElectricyMeters = interpolateMissingDays(electricyMeters);
+        dispatch(setElectricySampledMeters(sampledElectricyMeters));
+
+        // Calculate the consumption stats
+        const electricyStats = calculateConsumptionStats(
+          sampledElectricyMeters
+        );
+        dispatch(setElectricyStats(electricyStats));
+
+        // Calculate the expenses
+        const electricyExpenses = calculateElectricityExpenses(
+          gasStats,
+          settings.electricity.basicPrice,
+          settings.electricity.workingPrice
+        );
+        dispatch(setElectricyExpenses(electricyExpenses));
 
         // Update the last update time
         dispatch(setLastUpdateTime(Date.now()));

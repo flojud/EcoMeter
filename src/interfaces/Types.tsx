@@ -83,6 +83,8 @@ export interface IGasSettingsState {
   basicPrice: number;
   contractDate: Dayjs | number | null;
   runtime: number;
+  calorificValue: number;
+  zNumber: number;
 }
 
 export interface IElectricySettingsState {

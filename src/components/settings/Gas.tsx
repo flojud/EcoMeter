@@ -14,11 +14,13 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   setBasicPrice,
+  setCalorificValue,
   setConsumption,
   setConsumptionType,
   setContractDate,
   setRuntime,
   setWorkingPrice,
+  setZNumber,
 } from "../../store/slices/settings/gasSettingsSlice";
 import * as References from "../../utils/consumptionReferences";
 
@@ -34,6 +36,8 @@ const Gas = ({ onUpdate }: GasProps) => {
     basicPrice,
     contractDate,
     runtime,
+    calorificValue,
+    zNumber,
   } = useAppSelector((state) => state.settings.gas);
   const dispatch = useAppDispatch();
 
@@ -179,6 +183,30 @@ const Gas = ({ onUpdate }: GasProps) => {
                 <InputAdornment position="start">month</InputAdornment>
               ),
             }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            variant="outlined"
+          />
+          <TextField
+            fullWidth
+            label="Calorific Value"
+            type="number"
+            value={calorificValue}
+            onChange={(e) =>
+              dispatch(setCalorificValue(Number(e.target.value)))
+            }
+            InputLabelProps={{
+              shrink: true,
+            }}
+            variant="outlined"
+          />
+          <TextField
+            fullWidth
+            label="State number"
+            type="number"
+            value={zNumber}
+            onChange={(e) => dispatch(setZNumber(Number(e.target.value)))}
             InputLabelProps={{
               shrink: true,
             }}

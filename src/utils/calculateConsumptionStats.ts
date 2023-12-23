@@ -1,8 +1,10 @@
 import dayjs from "dayjs";
 import {
+  CurrencyUnit,
   IConsumption,
   IConsumptionAvg,
   IExpenseEstimate,
+  IMeter,
 } from "../interfaces/Types";
 
 const daysBetween = (data: IConsumption[]) => {
@@ -27,6 +29,22 @@ const calculateAverageConsumption = (data: IConsumption[]): number => {
   // Return the average consumption per day rounded to 2 decimals
   //round to 3 decimals and return
   return Math.round((totalConsumption / days) * 1000) / 1000;
+};
+
+export const converGasMetertM3ToKWh = (
+  meterArray: IMeter[],
+  calorificValue: number,
+  zNumber: number
+) => {
+  return meterArray.map((entry) => {
+    const convertedValue = entry.meterValue * calorificValue * zNumber;
+    return {
+      meterValue: convertedValue,
+      meterType: entry.meterType,
+      timestamp: entry.timestamp,
+      currencyUnit: CurrencyUnit.KWH,
+    };
+  });
 };
 
 export const calculateConsumptionStats = (
@@ -93,6 +111,32 @@ export const calculateGasExpenses = (
   };
 };
 
-// TODO implement these functions
-export const calculateWaterExpenses = (data: IConsumptionAvg) => {};
-export const calculateElectricityExpenses = (data: IConsumptionAvg) => {};
+export const calculateWaterExpenses = (
+  data: IConsumptionAvg,
+  squareMeters: number,
+  basicMonthCharge: number,
+  cubicMeterCharge: number,
+  sewageCubicMeterCharge: number,
+  rainwaterFee: number
+): IExpenseEstimate => {
+  // TODO water expenses calculation
+
+  return {
+    last7Days: 5,
+    last30Days: 10,
+    last365Days: 15,
+  };
+};
+
+export const calculateElectricityExpenses = (
+  data: IConsumptionAvg,
+  workingPrice: number,
+  basicPrice: number
+) => {
+  // TODO electricity expenses calculation
+  return {
+    last7Days: 5,
+    last30Days: 10,
+    last365Days: 15,
+  };
+};

@@ -1,8 +1,8 @@
 import { Box, Slider, Stack } from "@mui/material";
 import { ChartsReferenceLine, LineChart, ShowMarkParams } from "@mui/x-charts";
 import { useEffect, useState } from "react";
-import { IDataChartsRefences } from "../../interfaces/Types";
-import Title from "./Title";
+import { IDataChartsRefences } from "../../../interfaces/Types";
+import Title from "../Title";
 
 interface DataChartsProps {
   title: String;
