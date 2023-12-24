@@ -3,15 +3,20 @@ import {
   IConsumption,
   IConsumptionAvg,
   IExpenseEstimate,
+  IMeter,
 } from "../../interfaces/Types";
 
 interface MeterState {
+  meters: IMeter[] | null; //m3
+  metersKWh: IMeter[] | null;
   sampledMeters: IConsumption[] | null;
   stats: IConsumptionAvg | null;
   expenses: IExpenseEstimate | null;
 }
 
 const initialState: MeterState = {
+  meters: null,
+  metersKWh: null,
   sampledMeters: null,
   stats: null,
   expenses: null,
@@ -21,6 +26,12 @@ export const gasSlice = createSlice({
   name: "gas",
   initialState,
   reducers: {
+    setGasMeters(state, action) {
+      state.meters = action.payload;
+    },
+    setGasMetersKWh(state, action) {
+      state.metersKWh = action.payload;
+    },
     setGasSampledMeters: (state, action) => {
       state.sampledMeters = action.payload;
     },
@@ -33,7 +44,12 @@ export const gasSlice = createSlice({
   },
 });
 
-export const { setGasSampledMeters, setGasStats, setGasExpenses } =
-  gasSlice.actions;
+export const {
+  setGasMeters,
+  setGasMetersKWh,
+  setGasSampledMeters,
+  setGasStats,
+  setGasExpenses,
+} = gasSlice.actions;
 
 export default gasSlice.reducer;

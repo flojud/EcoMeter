@@ -55,9 +55,6 @@ export const calculateConsumptionStats = (
   const last30Days = today.subtract(30, "day");
   const last365Days = today.subtract(365, "day");
 
-  const filteredDataAllTime = data.filter((entry) =>
-    dayjs(entry.timestamp * 1000).isBefore(today)
-  );
   const filteredDataLast7Days = data.filter((entry) =>
     dayjs(entry.timestamp * 1000).isAfter(last7Days)
   );
@@ -69,13 +66,11 @@ export const calculateConsumptionStats = (
   );
 
   // Calculate average consumption per day for the last 7, 30 and 365 days
-  const avgAllTime = calculateAverageConsumption(filteredDataAllTime);
   const avgLast7Days = calculateAverageConsumption(filteredDataLast7Days);
   const avgLast30Days = calculateAverageConsumption(filteredDataLast30Days);
   const avgLast365Days = calculateAverageConsumption(filteredDataLast365Days);
 
   return {
-    avgAllTime,
     avgLast7Days,
     avgLast30Days,
     avgLast365Days,

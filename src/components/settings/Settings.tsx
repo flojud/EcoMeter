@@ -24,6 +24,8 @@ const Settings = () => {
       contractDate: dateToTimestamp(settings.gas.contractDate),
       runtime: settings.gas.runtime,
       workingPrice: settings.gas.workingPrice,
+      zNumber: settings.gas.zNumber,
+      calorificValue: settings.gas.calorificValue,
     };
 
     const electricy = {

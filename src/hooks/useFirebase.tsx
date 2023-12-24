@@ -8,6 +8,7 @@ import {
   orderBy,
   query,
   setDoc,
+  where,
 } from "firebase/firestore";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContextProvider";
@@ -15,23 +16,29 @@ import { NotificationContext } from "../contexts/NotificationContextProvider";
 import { db } from "../firebase/Firebase";
 import { IMeter, MeterType } from "../interfaces/Types";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { setLastUpdateTime, setMeters } from "../store/slices/meterSlice";
+import { setLastUpdateTime } from "../store/slices/meterSlice";
 import {
   setBasicPrice as _gas_basicPrice,
+  setCalorificValue as _gas_calorificValue,
   setConsumption as _gas_consumption,
   setConsumptionType as _gas_consumptionType,
   setContractDate as _gas_contractDate,
   setRuntime as _gas_runtime,
   setWorkingPrice as _gas_workingPrice,
+  setZNumber as _gas_zNumber,
 } from "../store/slices/settings/gasSettingsSlice";
 
+import dayjs from "dayjs";
 import {
   setElectricyExpenses,
+  setElectricyMeters,
   setElectricySampledMeters,
   setElectricyStats,
 } from "../store/slices/electricySlice";
 import {
   setGasExpenses,
+  setGasMeters,
+  setGasMetersKWh,
   setGasSampledMeters,
   setGasStats,
 } from "../store/slices/gasSlice";
@@ -53,6 +60,7 @@ import {
 } from "../store/slices/settings/waterSettingsSlice";
 import {
   setWaterExpenses,
+  setWaterMeters,
   setWaterSampledMeters,
   setWaterStats,
 } from "../store/slices/waterSlice";
@@ -75,70 +83,36 @@ function useFirebase() {
   const { lastUpdateTime } = useAppSelector((state) => state.meter);
   const settings = useAppSelector((state) => state.settings);
 
-  const GetAllMeters = () => {
-    const result: IMeter[] = [];
+  const getMeters = async (type: MeterType) => {
+    const fromUnixTS = dayjs().subtract(365, "day").unix();
+
     const ref = collection(db, user.uid);
-    const q = query(ref, orderBy("timestamp", "desc"));
-    getDocs(q)
+    const q = query(
+      ref,
+      where("timestamp", ">=", fromUnixTS),
+      where("meterType", "==", type),
+      orderBy("timestamp", "desc")
+    );
+    return getDocs(q);
+  };
+
+  const GetWaterMeters = () => {
+    const result: IMeter[] = [];
+    getMeters(MeterType.WATER)
       .then((response) => {
         response.docs.forEach((item) => {
           result.push(item.data() as IMeter);
         });
       })
       .finally(() => {
-        // Update the store
-        dispatch(setMeters(result));
+        dispatch(setWaterMeters(result));
 
-        /*
-         Start of Gas calculations
-        */
-
-        // Get only the gas meters
-        const gasMeters = result.filter(
-          (item) => item.meterType === MeterType.GAS
-        );
-
-        // convert m3 to kwh
-        converGasMetertM3ToKWh(
-          gasMeters,
-          settings.gas.calorificValue,
-          settings.gas.zNumber
-        );
-
-        // interpolate the missing days in between the data points
-        const sampledGasMeters = interpolateMissingDays(gasMeters);
-        dispatch(setGasSampledMeters(sampledGasMeters));
-
-        // Calculate the consumption stats
-        const gasStats = calculateConsumptionStats(sampledGasMeters);
-        dispatch(setGasStats(gasStats));
-
-        // Calculate the expenses
-        const gasExpenses = calculateGasExpenses(
-          gasStats,
-          settings.gas.basicPrice,
-          settings.gas.workingPrice
-        );
-        dispatch(setGasExpenses(gasExpenses));
-
-        /*
-         Start of Water calculations
-        */
-
-        // Get only the gas meters
-        const waterMeters = result.filter(
-          (item) => item.meterType === MeterType.WATER
-        );
-
-        // interpolate the missing days in between the data points
-        const sampledWaterMeters = interpolateMissingDays(waterMeters);
+        const sampledWaterMeters = interpolateMissingDays(result);
         dispatch(setWaterSampledMeters(sampledWaterMeters));
 
-        // Calculate the consumption stats
         const waterStats = calculateConsumptionStats(sampledWaterMeters);
         dispatch(setWaterStats(waterStats));
 
-        // Calculate the expenses
         const waterExpenses = calculateWaterExpenses(
           waterStats,
           settings.water.squareMeters,
@@ -148,37 +122,77 @@ function useFirebase() {
           settings.water.rainwaterFee
         );
         dispatch(setWaterExpenses(waterExpenses));
+      });
+  };
 
-        /*
-         Start of electricy calculations
-        */
+  const GetElectricyMeters = () => {
+    const result: IMeter[] = [];
+    getMeters(MeterType.ELECTRICITY)
+      .then((response) => {
+        response.docs.forEach((item) => {
+          result.push(item.data() as IMeter);
+        });
+      })
+      .finally(() => {
+        dispatch(setElectricyMeters(result));
 
-        // Get only the gas meters
-        const electricyMeters = result.filter(
-          (item) => item.meterType === MeterType.ELECTRICITY
-        );
-
-        // interpolate the missing days in between the data points
-        const sampledElectricyMeters = interpolateMissingDays(electricyMeters);
+        const sampledElectricyMeters = interpolateMissingDays(result);
         dispatch(setElectricySampledMeters(sampledElectricyMeters));
 
-        // Calculate the consumption stats
         const electricyStats = calculateConsumptionStats(
           sampledElectricyMeters
         );
         dispatch(setElectricyStats(electricyStats));
 
-        // Calculate the expenses
         const electricyExpenses = calculateElectricityExpenses(
-          gasStats,
+          electricyStats,
           settings.electricity.basicPrice,
           settings.electricity.workingPrice
         );
         dispatch(setElectricyExpenses(electricyExpenses));
-
-        // Update the last update time
-        dispatch(setLastUpdateTime(Date.now()));
       });
+  };
+
+  const GetGasMeters = () => {
+    const result: IMeter[] = [];
+    getMeters(MeterType.GAS)
+      .then((response) => {
+        response.docs.forEach((item) => {
+          result.push(item.data() as IMeter);
+        });
+      })
+      .finally(() => {
+        dispatch(setGasMeters(result));
+
+        const metersKWh = converGasMetertM3ToKWh(
+          result,
+          settings.gas.calorificValue,
+          settings.gas.zNumber
+        );
+        dispatch(setGasMetersKWh(metersKWh));
+
+        const sampledGasMeters = interpolateMissingDays(metersKWh);
+        dispatch(setGasSampledMeters(sampledGasMeters));
+
+        const gasStats = calculateConsumptionStats(sampledGasMeters);
+        dispatch(setGasStats(gasStats));
+
+        const gasExpenses = calculateGasExpenses(
+          gasStats,
+          settings.gas.basicPrice,
+          settings.gas.workingPrice
+        );
+        dispatch(setGasExpenses(gasExpenses));
+      });
+  };
+
+  const GetAllMeters = () => {
+    GetGasMeters();
+    GetWaterMeters();
+    GetElectricyMeters();
+
+    // Update the last update time
+    dispatch(setLastUpdateTime(Date.now()));
   };
 
   // Function to update the data
@@ -234,6 +248,8 @@ function useFirebase() {
         dispatch(_gas_contractDate(toDayjsObject(gas.contractDate)));
         dispatch(_gas_runtime(gas.runtime));
         dispatch(_gas_workingPrice(gas.workingPrice));
+        dispatch(_gas_calorificValue(gas.calorificValue));
+        dispatch(_gas_zNumber(gas.zNumber));
 
         const electricy = data.electricity;
         dispatch(_electricy_basicPrice(electricy.basicPrice));

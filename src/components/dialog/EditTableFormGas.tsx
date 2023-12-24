@@ -10,7 +10,7 @@ import DataTable from "../common/DataTable";
 import SlideUpFrame from "./SlideUpFrame";
 
 const EditTableFormGas = () => {
-  const { meters } = useAppSelector((state) => state.meter);
+  const { meters } = useAppSelector((state) => state.gas);
 
   const { openGasTableForm } = useAppSelector((state) => state.dialog);
   const dispatch = useAppDispatch();

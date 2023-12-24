@@ -70,7 +70,6 @@ export interface IConsumption {
 }
 
 export interface IConsumptionAvg {
-  avgAllTime: number;
   avgLast7Days: number;
   avgLast30Days: number;
   avgLast365Days: number;

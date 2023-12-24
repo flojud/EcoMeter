@@ -1,5 +1,4 @@
 import { Stack } from "@mui/material";
-import { CurrencyUnit } from "../../interfaces/Types";
 import { useAppSelector } from "../../store/hooks";
 import ExpensesFacts from "../common/ExpensesFacts";
 import ConsumptionChart from "../common/charts/ConsumptionChart";
@@ -23,7 +22,8 @@ const Gas = () => {
             title="Insights"
             stats={stats}
             expenses={expenses}
-            unit={CurrencyUnit.KWH}
+            unit={"kWh"}
+            currency={"€"}
           />
           <ConsumptionChart data={sampledMeters} />
           <MeterChart data={sampledMeters} />

@@ -3,15 +3,18 @@ import {
   IConsumption,
   IConsumptionAvg,
   IExpenseEstimate,
+  IMeter,
 } from "../../interfaces/Types";
 
 interface MeterState {
+  meters: IMeter[] | null;
   sampledMeters: IConsumption[] | null;
   stats: IConsumptionAvg | null;
   expenses: IExpenseEstimate | null;
 }
 
 const initialState: MeterState = {
+  meters: null,
   sampledMeters: null,
   stats: null,
   expenses: null,
@@ -21,6 +24,9 @@ export const waterReducer = createSlice({
   name: "water",
   initialState,
   reducers: {
+    setWaterMeters(state, action) {
+      state.meters = action.payload;
+    },
     setWaterSampledMeters: (state, action) => {
       state.sampledMeters = action.payload;
     },
@@ -33,7 +39,11 @@ export const waterReducer = createSlice({
   },
 });
 
-export const { setWaterSampledMeters, setWaterStats, setWaterExpenses } =
-  waterReducer.actions;
+export const {
+  setWaterMeters,
+  setWaterSampledMeters,
+  setWaterStats,
+  setWaterExpenses,
+} = waterReducer.actions;
 
 export default waterReducer.reducer;
