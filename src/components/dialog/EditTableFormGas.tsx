@@ -1,8 +1,12 @@
+import { Delete } from "@mui/icons-material";
 import {
+  GridActionsCellItem,
   GridColDef,
   GridColumnVisibilityModel,
   GridValueGetterParams,
 } from "@mui/x-data-grid";
+import useFirebase from "../../hooks/useFirebase";
+import { IMeter } from "../../interfaces/Types";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setOpenGasTableForm } from "../../store/slices/dialogSlice";
 import { timestampToDateTimeString } from "../../utils/dateUtils";
@@ -11,10 +15,20 @@ import SlideUpFrame from "./SlideUpFrame";
 
 const EditTableFormGas = () => {
   const { meters } = useAppSelector((state) => state.gas);
-
   const { openGasTableForm } = useAppSelector((state) => state.dialog);
+  const { DeleteMeter } = useFirebase();
   const dispatch = useAppDispatch();
   const onClose = () => dispatch(setOpenGasTableForm(false));
+
+  const handleDeleteClick = (item: any) => () => {
+    const meter: IMeter = {
+      timestamp: item.row.timestamp,
+      currencyUnit: item.row.currencyUnit,
+      meterValue: item.row.meterValue,
+      meterType: item.row.meterType,
+    };
+    DeleteMeter(meter);
+  };
 
   // states for the table
   const columns: GridColDef[] = [
@@ -36,6 +50,21 @@ const EditTableFormGas = () => {
       sortable: true,
       editable: true,
       flex: 1,
+    },
+    {
+      field: "delete",
+      type: "delete",
+      headerName: "Delete",
+      renderCell: (item: any) => {
+        return (
+          <GridActionsCellItem
+            icon={<Delete />}
+            label="Delete"
+            onClick={handleDeleteClick(item)}
+            color="inherit"
+          />
+        );
+      },
     },
   ];
 

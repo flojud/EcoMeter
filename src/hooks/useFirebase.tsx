@@ -222,6 +222,18 @@ function useFirebase() {
       });
   };
 
+  // Function to delete meter
+  const DeleteMeter = async (meter: IMeter) => {
+    await deleteDoc(doc(db, `${user.uid}`, `${meter.timestamp}`))
+      .then(() => {
+        notifyContext.addNotification("Deleted meter", "success");
+        GetAllMeters();
+      })
+      .catch(() => {
+        notifyContext.addNotification("Failed to delete meter", "error");
+      });
+  };
+
   // Function to save settings
   const SaveSettings = async (settings: any) => {
     // Save the meter to the database
@@ -298,6 +310,7 @@ function useFirebase() {
     GetAllMeters,
     UpdateDataIfOlderThan5Minutes,
     SaveMeter,
+    DeleteMeter,
     SaveSettings,
     GetSettings,
     UpdateMeter,
