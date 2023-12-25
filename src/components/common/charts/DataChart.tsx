@@ -142,7 +142,7 @@ const DataCharts = ({
           valueLabelDisplay="auto"
           min={0}
           max={dates.length}
-          sx={{ px: 4 }}
+          sx={{ width: "75%" }}
         />
       </Stack>
     </Box>

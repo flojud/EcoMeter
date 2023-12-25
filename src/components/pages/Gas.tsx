@@ -17,6 +17,7 @@ const Gas = () => {
           justifyContent="flex-start"
           alignItems="center"
           spacing={4}
+          overflow={"hidden"}
         >
           <ExpensesFacts
             title="Insights"
