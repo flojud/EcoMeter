@@ -1,10 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query/react";
+import appReducer from "./slices/appSlice";
 import dialogReducer from "./slices/dialogSlice";
 import electricyReducer from "./slices/electricySlice";
 import gasReducer from "./slices/gasSlice";
 import menuReducer from "./slices/menuSlice";
-import meterReducer from "./slices/meterSlice";
 import electricySettingsReducer from "./slices/settings/electricySettingsSlice";
 import gasSettingsReducer from "./slices/settings/gasSettingsSlice";
 import waterSettingsReducer from "./slices/settings/waterSettingsSlice";
@@ -20,7 +20,7 @@ export const store = configureStore({
   reducer: {
     dialog: dialogReducer,
     menu: menuReducer,
-    meter: meterReducer,
+    app: appReducer,
     settings: settings,
     gas: gasReducer,
     electricy: electricyReducer,

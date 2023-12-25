@@ -100,6 +100,7 @@ export const AuthContextProvider: FC<Props> = ({ children }) => {
 
   useEffect(() => {
     checkIsLoggedIn();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   useEffect(() => {

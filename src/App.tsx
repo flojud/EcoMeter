@@ -3,6 +3,7 @@ import { CssBaseline, createTheme } from "@mui/material";
 import { useContext, useEffect } from "react";
 import A2HSInstaller from "./components/common/A2HSInstaller";
 import Notification from "./components/common/Notification";
+import SplashScreen from "./components/common/splashScreen/SplashScreen";
 import ActionDial from "./components/dialog/ActionDial";
 import AddMeterForm from "./components/dialog/AddMeterForm";
 import EditTableForm from "./components/dialog/EditTableFormGas";
@@ -33,6 +34,7 @@ const App = () => {
     <>
       <ThemeProvider theme={appliedTheme}>
         <CssBaseline />
+        <SplashScreen />
         <NavigationDrawer />
         <ActionDial />
         <AddMeterForm />

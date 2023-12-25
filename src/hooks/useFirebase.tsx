@@ -16,7 +16,7 @@ import { NotificationContext } from "../contexts/NotificationContextProvider";
 import { db } from "../firebase/Firebase";
 import { IMeter, MeterType } from "../interfaces/Types";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { setLastUpdateTime } from "../store/slices/meterSlice";
+import { setLastUpdateTime } from "../store/slices/appSlice";
 import {
   setBasicPrice as _gas_basicPrice,
   setCalorificValue as _gas_calorificValue,
@@ -80,7 +80,7 @@ function useFirebase() {
   const dispatch = useAppDispatch();
 
   const user = authContext!.user as User;
-  const { lastUpdateTime } = useAppSelector((state) => state.meter);
+  const { lastUpdateTime } = useAppSelector((state) => state.app);
   const settings = useAppSelector((state) => state.settings);
 
   const getMeters = async (type: MeterType) => {

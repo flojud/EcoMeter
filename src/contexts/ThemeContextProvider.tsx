@@ -28,6 +28,7 @@ export const ThemeContextProvider: FC<Props> = ({ children }: Props) => {
       // if not take the light theme
       return light;
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // saves/updates the theme color mode in local storage
