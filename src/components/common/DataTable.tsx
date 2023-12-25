@@ -3,6 +3,9 @@ import {
   DataGrid,
   GridColDef,
   GridColumnVisibilityModel,
+  GridToolbarContainer,
+  GridToolbarDensitySelector,
+  GridToolbarExport,
 } from "@mui/x-data-grid";
 import { useContext } from "react";
 import { NotificationContext } from "../../contexts/NotificationContextProvider";
@@ -30,8 +33,17 @@ const DataTable = ({ columns, data, columnVisibility }: DataTableProps) => {
     UpdateMeter(record.timestamp, record.meterValue, record.meterType);
   };
 
+  function CustomToolbar() {
+    return (
+      <GridToolbarContainer>
+        <GridToolbarExport />
+        <GridToolbarDensitySelector />
+      </GridToolbarContainer>
+    );
+  }
+
   return (
-    <Box sx={{ width: "100%", py: 4 }}>
+    <Box sx={{ width: "100%", py: 4, overflow: "hidden" }}>
       {data ? (
         <DataGrid
           rows={data}
@@ -49,6 +61,7 @@ const DataTable = ({ columns, data, columnVisibility }: DataTableProps) => {
             },
           }}
           pageSizeOptions={[5]}
+          slots={{ toolbar: CustomToolbar }}
         />
       ) : (
         <Typography variant="body1">No data available</Typography>

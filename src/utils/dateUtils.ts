@@ -22,5 +22,5 @@ export const toDayjsObject = (date: Dayjs | null | number): Dayjs | null => {
 
 export const timestampToDateTimeString = (timestamp: number): string => {
   const date = dayjs(timestamp * 1000);
-  return date.format("YYYY-MM-DD HH:mm:ss");
+  return date.format("YYYY-MM-DD");
 };

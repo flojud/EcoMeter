@@ -55,6 +55,8 @@ const EditTableFormGas = () => {
       field: "delete",
       type: "delete",
       headerName: "Delete",
+      sortable: false,
+      editable: false,
       renderCell: (item: any) => {
         return (
           <GridActionsCellItem
