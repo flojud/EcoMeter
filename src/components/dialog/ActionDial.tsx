@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   setOpenElectricityTableForm,
   setOpenGasTableForm,
+  setOpenImportMeterForm,
   setOpenMeterForm,
 } from "../../store/slices/dialogSlice";
 
@@ -46,7 +47,7 @@ const ActionDial = () => {
       <SpeedDialAction
         icon={<FileUpload />}
         tooltipTitle="Import"
-        onClick={() => console.log("Import")}
+        onClick={() => dispatch(setOpenImportMeterForm(true))}
       />
     </SpeedDial>
   ) : (

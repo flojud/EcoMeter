@@ -8,7 +8,7 @@ const Item = ({ slide }: ItemProps) => {
   return (
     <Box
       sx={{
-        flex: "0 0 75%",
+        flex: "0 0 55%",
         "min-width": 0,
         p: 1,
       }}
@@ -17,9 +17,13 @@ const Item = ({ slide }: ItemProps) => {
         <Card>
           <CardHeader title={slide.title} />
           <CardContent>
-            <Chip label={slide.consumption} />
-
-            <Chip label={slide.costs} />
+            <Chip
+              label={slide.consumption}
+              sx={{ mr: 1 }}
+              variant="outlined"
+              color="primary"
+            />
+            <Chip label={slide.costs} variant="outlined" color="secondary" />
           </CardContent>
         </Card>
       </Box>

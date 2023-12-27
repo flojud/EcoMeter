@@ -1,4 +1,4 @@
-import { Box, Slider, Stack } from "@mui/material";
+import { Box, Slider, Stack, Typography } from "@mui/material";
 import { ChartsReferenceLine, LineChart, ShowMarkParams } from "@mui/x-charts";
 import { useEffect, useState } from "react";
 import { IDataChartsRefences } from "../../interfaces/Types";
@@ -9,6 +9,7 @@ interface DataChartsProps {
   dates: Date[];
   data: number[];
   referenceLines?: IDataChartsRefences;
+  caption: String;
 }
 
 const DataCharts = ({
@@ -16,6 +17,7 @@ const DataCharts = ({
   dates,
   data,
   referenceLines,
+  caption,
 }: DataChartsProps) => {
   const valueFormatter = (date: Date) =>
     date.toLocaleDateString("en-DE", {
@@ -73,7 +75,7 @@ const DataCharts = ({
     <Box sx={{ width: "100%" }}>
       <Stack
         direction="column"
-        justifyContent="flex-start"
+        justifyContent="center"
         alignItems="center"
         width="100%"
       >
@@ -144,6 +146,9 @@ const DataCharts = ({
           max={dates.length}
           sx={{ width: "75%" }}
         />
+        <Typography variant="caption" sx={{ width: "100%", px: 2 }}>
+          {caption}
+        </Typography>
       </Stack>
     </Box>
   );

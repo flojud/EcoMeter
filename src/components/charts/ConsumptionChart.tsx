@@ -16,6 +16,7 @@ const ConsumptionChart = ({ data }: ConsumptionChartProps) => {
       dates={dates}
       data={consumption}
       referenceLines={References.GAS_CONSUMPTION_REF}
+      caption="Your m3 consumption expenses are converted into kWh and displayed in the chart. The daily consumption is interpolated. The reference lines are guidelines only."
     />
   );
 };

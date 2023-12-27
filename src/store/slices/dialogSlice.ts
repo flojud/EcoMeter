@@ -5,6 +5,7 @@ interface FeedbackState {
   openGasTableForm: boolean;
   openElectricityTableForm: boolean;
   openWaterTableForm: boolean;
+  openImportMeterForm: boolean;
 }
 
 const initialState: FeedbackState = {
@@ -12,6 +13,7 @@ const initialState: FeedbackState = {
   openGasTableForm: false,
   openElectricityTableForm: false,
   openWaterTableForm: false,
+  openImportMeterForm: false,
 };
 
 export const dialogSlice = createSlice({
@@ -30,6 +32,9 @@ export const dialogSlice = createSlice({
     setOpenWaterTableForm: (state, actions) => {
       state.openWaterTableForm = actions.payload;
     },
+    setOpenImportMeterForm: (state, actions) => {
+      state.openImportMeterForm = actions.payload;
+    },
   },
 });
 
@@ -38,6 +43,7 @@ export const {
   setOpenGasTableForm,
   setOpenElectricityTableForm,
   setOpenWaterTableForm,
+  setOpenImportMeterForm,
 } = dialogSlice.actions;
 
 export default dialogSlice.reducer;

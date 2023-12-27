@@ -48,6 +48,14 @@ const AddMeterForm = () => {
     }
   }, [date, meterType, currencyUnit, meterValue]);
 
+  // reset the states
+  const resetStates = () => {
+    setDate(null);
+    setMeterType("");
+    setCurrencyUnit("");
+    setMeterValue(null);
+  };
+
   // save the data to the database
   const save = () => {
     setIsSubmitting(true);
@@ -59,10 +67,14 @@ const AddMeterForm = () => {
       timestamp: date!.unix(),
     } as IMeter;
 
-    SaveMeter(meter).then(() => {
-      setIsSubmitting(false);
-      onClose();
-    });
+    SaveMeter(meter)
+      .then(() => {
+        setIsSubmitting(false);
+        onClose();
+      })
+      .finally(() => {
+        resetStates();
+      });
   };
 
   const filteredCurrencyUnits = Object.values(CurrencyUnit).filter(

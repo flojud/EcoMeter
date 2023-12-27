@@ -12,6 +12,7 @@ import { AuthContext } from "./contexts/AuthContextProvider";
 import { ThemeContext } from "./contexts/ThemeContextProvider";
 import useFirebase from "./hooks/useFirebase";
 import { darkThemeOptions, lightThemeOptions } from "./utils/MyThemeOptions";
+import ImportMeterForm from "./components/dialog/ImportMeterForm";
 
 const App = () => {
   const themeContext = useContext(ThemeContext);
@@ -39,6 +40,7 @@ const App = () => {
         <ActionDial />
         <AddMeterForm />
         <EditTableForm />
+        <ImportMeterForm />
         <A2HSInstaller />
       </ThemeProvider>
       <Notification />
