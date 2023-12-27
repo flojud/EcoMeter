@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Bolt, Home, Settings, WaterDrop, Whatshot } from "@mui/icons-material";
+import { Bolt, Settings, WaterDrop, Whatshot } from "@mui/icons-material";
 import {
   BottomNavigation,
   BottomNavigationAction,
@@ -33,8 +33,12 @@ const NavigationDrawer = () => {
       </Box>
 
       <Paper
-        sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
-        elevation={3}
+        sx={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+        }}
       >
         <BottomNavigation
           showLabels
@@ -43,7 +47,6 @@ const NavigationDrawer = () => {
             dispatch(setItem(newValue));
           }}
         >
-          <BottomNavigationAction label="Home" icon={<Home />} />
           {authContext?.loggedIn && (
             <BottomNavigationAction label="Gas" icon={<Whatshot />} />
           )}

@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { IConsumption } from "../../../interfaces/Types";
+import { IConsumption } from "../../interfaces/Types";
 import DataCharts from "./DataChart";
 
 interface MeterChartProps {

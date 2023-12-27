@@ -1,8 +1,9 @@
 import { Player } from "@lottiefiles/react-lottie-player";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { setAnimation } from "../../../store/slices/appSlice";
+import BluredPlant from "../BluredPlant";
 import animationData from "./animation.json";
 
 const SplashScreen = () => {
@@ -36,35 +37,18 @@ const SplashScreen = () => {
   return (
     <>
       {show ? (
-        <Box
-          sx={(theme) => ({
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: theme.palette.background.paper, // Adjust the background color and opacity as needed
-            zIndex: 9999,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            opacity: animation ? 1 : 0,
-            transition: "opacity 1s ease-in-out", // Add a transition for opacity
-          })}
-        >
-          <Stack
-            direction="column"
-            justifyContent="flex-start"
-            alignItems="center"
-            spacing={2}
-            width="100%"
+        <BluredPlant>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-start",
+              alignItems: "center",
+              width: "100%",
+            }}
           >
-            <Typography variant="h3" sx={{ color: "white" }}>
-              EcoMeter
-            </Typography>
             <Player src={animationData} className="player" autoplay speed={2} />
-          </Stack>
-        </Box>
+          </Box>
+        </BluredPlant>
       ) : (
         <></>
       )}

@@ -1,8 +1,8 @@
 import { Stack } from "@mui/material";
 import { useAppSelector } from "../../store/hooks";
+import ConsumptionChart from "../charts/ConsumptionChart";
+import MeterChart from "../charts/MeterChart";
 import ExpensesFacts from "../common/ExpensesFacts";
-import ConsumptionChart from "../common/charts/ConsumptionChart";
-import MeterChart from "../common/charts/MeterChart";
 
 const Gas = () => {
   const { sampledMeters, stats, expenses } = useAppSelector(

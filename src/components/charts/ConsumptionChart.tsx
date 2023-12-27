@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
-import { IConsumption } from "../../../interfaces/Types";
-import * as References from "../../../utils/consumptionReferences";
+import { IConsumption } from "../../interfaces/Types";
+import * as References from "../../utils/consumptionReferences";
 import DataCharts from "./DataChart";
 
 interface ConsumptionChartProps {
