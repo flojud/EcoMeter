@@ -13,16 +13,16 @@ const ActionDial = () => {
 
   const handleEditClick = () => {
     switch (item) {
-      case 1:
+      case 0:
         return dispatch(setOpenGasTableForm(true));
-      case 2:
+      case 1:
         return dispatch(setOpenElectricityTableForm(true));
-      case 3:
+      case 2:
         return dispatch(setOpenMeterForm(true));
     }
   };
 
-  return item === 1 || item === 2 || item === 3 ? (
+  return item === 0 || item === 1 || item === 2 ? (
     <SpeedDial
       sx={{
         position: "fixed",
