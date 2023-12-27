@@ -74,7 +74,8 @@ function calculateMissingConsumption(data: IConsumption[]): IConsumption[] {
   for (let i = 0; i < data.length; i++) {
     if (!data[i].consumption) {
       const meterDifference =
-        data[i].meterValue - (data[i - 1]?.meterValue || 0);
+        data[i].meterValue - (data[i - 1]?.meterValue || data[i].meterValue);
+
       const newConsumption = meterDifference;
 
       // Create a new object with the existing properties and the calculated consumption

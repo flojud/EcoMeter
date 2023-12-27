@@ -9,7 +9,6 @@ const NavigationRouter = () => {
   const authContext = useContext(AuthContext);
   const { item } = useAppSelector((state) => state.menu);
 
-  console.log(authContext?.loggedIn);
   if (authContext?.loggedIn === false) return <Login />;
 
   switch (item) {
