@@ -36,7 +36,7 @@ const ImportMeterForm = () => {
     }
 
     if (dataIsValid(data)) {
-      // convert each row to a meter object
+      // eslint-disable-next-line array-callback-return
       const meters: IMeter[] = data.map((row: any) => {
         if (dayjs(row[0]).isValid()) {
           return {
