@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import image from "./login.jpg";
+import { ZINDEX_BLURRED_PLANT } from "../../utils/zIndexes";
 
 interface BluredPlantProps {
   children: React.ReactNode;
@@ -13,7 +14,7 @@ const BluredPlant = ({ children }: BluredPlantProps) => {
         left: 0,
         width: "100%",
         height: "100%",
-        zIndex: 9990,
+        zIndex: ZINDEX_BLURRED_PLANT,
 
         backgroundImage: `url(${image})`,
         backgroundPosition: "bottom",

@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { ReactNode } from "react";
+import { ZINDEX_SLIDE_UP_FRAME } from "../../utils/zIndexes";
 
 interface SlideUpFrameProps {
   children: ReactNode | any;
@@ -36,7 +37,7 @@ const SlideUpFrame = ({
           bottom: 0,
           left: 0,
           right: 0,
-          zIndex: 999,
+          zIndex: ZINDEX_SLIDE_UP_FRAME,
           height: "100%",
           width: "100%",
           background: "rgba(0, 0, 0, 0.37)",

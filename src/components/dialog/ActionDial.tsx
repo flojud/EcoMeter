@@ -7,6 +7,7 @@ import {
   setOpenImportMeterForm,
   setOpenMeterForm,
 } from "../../store/slices/dialogSlice";
+import { ZINDEX_ACTION_DIAL } from "../../utils/zIndexes";
 
 const ActionDial = () => {
   const { item } = useAppSelector((state) => state.menu);
@@ -29,7 +30,7 @@ const ActionDial = () => {
         position: "fixed",
         right: "10%",
         bottom: "10%",
-        zIndex: 99,
+        zIndex: ZINDEX_ACTION_DIAL,
       }}
       icon={<SpeedDialIcon />}
       ariaLabel="Action Dial"

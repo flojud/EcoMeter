@@ -5,6 +5,11 @@ import { ReactNode } from "react";
 
 export type Props = { children: ReactNode | any };
 
+export interface IWindow extends Window {
+  supportsPwa?: boolean;
+  deferredPWA?: IBeforeInstallPromptEvent;
+}
+
 export interface INotificationContext {
   notification: INotification | null;
   addNotification: (message: string, severity: AlertColor) => void;
