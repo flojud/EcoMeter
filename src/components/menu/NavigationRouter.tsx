@@ -1,8 +1,10 @@
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContextProvider";
 import { useAppSelector } from "../../store/hooks";
+import Electricity from "../pages/Electricity";
 import Gas from "../pages/Gas";
 import Login from "../pages/Login";
+import Water from "../pages/Water";
 import Settings from "../settings/Settings";
 
 const NavigationRouter = () => {
@@ -15,9 +17,9 @@ const NavigationRouter = () => {
     case 0:
       return <Gas />;
     case 1:
-      return <>Electricity</>;
+      return <Electricity />;
     case 2:
-      return <>Water</>;
+      return <Water />;
     case 3:
       return <Settings />;
     default:

@@ -114,12 +114,49 @@ export const calculateWaterExpenses = (
   sewageCubicMeterCharge: number,
   rainwaterFee: number
 ): IExpenseEstimate => {
-  // TODO water expenses calculation
+  const waterTax = 1.07; // 7% water tax in Germany, but not for sewage and rainwater
+
+  // 7 days
+  const workingCosts7d = data.avgLast7Days * 7 * cubicMeterCharge;
+  const basicCosts7d = (basicMonthCharge * 12) / 53;
+  const waterSum7d = (workingCosts7d + basicCosts7d) * waterTax;
+  const sewageWorkingCosts7d = data.avgLast7Days * 7 * sewageCubicMeterCharge;
+  const rainwaterCosts7d = ((rainwaterFee * squareMeters) / 356) * 7;
+
+  const totalCosts7d =
+    Math.round((waterSum7d + sewageWorkingCosts7d + rainwaterCosts7d) * 100) /
+    100;
+
+  // 30 days
+  const workingCosts30d = data.avgLast30Days * 30 * cubicMeterCharge;
+  const basicCosts30d = basicMonthCharge;
+  const waterSum30d = (workingCosts30d + basicCosts30d) * waterTax;
+  const sewageWorkingCosts30d =
+    data.avgLast30Days * 30 * sewageCubicMeterCharge;
+  const rainwaterCosts30d = (rainwaterFee * squareMeters) / 12;
+
+  const totalCosts30d =
+    Math.round(
+      (waterSum30d + sewageWorkingCosts30d + rainwaterCosts30d) * 100
+    ) / 100;
+
+  // 365 days
+  const workingCosts365d = data.avgLast365Days * 365 * cubicMeterCharge;
+  const basicCosts365d = basicMonthCharge * 12;
+  const waterSum365d = (workingCosts365d + basicCosts365d) * waterTax;
+  const sewageWorkingCosts365d =
+    data.avgLast365Days * 365 * sewageCubicMeterCharge;
+  const rainwaterCosts365d = rainwaterFee * squareMeters;
+
+  const totalCosts365d =
+    Math.round(
+      (waterSum365d + sewageWorkingCosts365d + rainwaterCosts365d) * 100
+    ) / 100;
 
   return {
-    last7Days: 5,
-    last30Days: 10,
-    last365Days: 15,
+    last7Days: totalCosts7d,
+    last30Days: totalCosts30d,
+    last365Days: totalCosts365d,
   };
 };
 
@@ -128,10 +165,25 @@ export const calculateElectricityExpenses = (
   workingPrice: number,
   basicPrice: number
 ) => {
-  // TODO electricity expenses calculation
+  // 7 days
+  const workingCosts7d = (data.avgLast7Days * 7 * workingPrice) / 100;
+  const basicCosts7d = (basicPrice * 12) / 53;
+  const totalCosts7d = Math.round((workingCosts7d + basicCosts7d) * 100) / 100;
+
+  // 30 days
+  const workingCosts30d = (data.avgLast30Days * 30 * workingPrice) / 100;
+  const basicCosts30d = basicPrice;
+  const totalCosts30d =
+    Math.round((workingCosts30d + basicCosts30d) * 100) / 100;
+
+  // 365 days
+  const workingCosts365d = (data.avgLast365Days * 365 * workingPrice) / 100;
+  const basicCosts365d = basicPrice * 12;
+  const totalCosts365d =
+    Math.round((workingCosts365d + basicCosts365d) * 100) / 100;
   return {
-    last7Days: 5,
-    last30Days: 10,
-    last365Days: 15,
+    last7Days: totalCosts7d,
+    last30Days: totalCosts30d,
+    last365Days: totalCosts365d,
   };
 };
