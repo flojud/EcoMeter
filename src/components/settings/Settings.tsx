@@ -4,7 +4,7 @@ import { useState } from "react";
 import useFirebase from "../../hooks/useFirebase";
 import { useAppSelector } from "../../store/hooks";
 import { dateToTimestamp } from "../../utils/dateUtils";
-import Electricy from "./Electricy";
+import Electricity from "./Electricity";
 import Gas from "./Gas";
 import Water from "./Water";
 
@@ -28,7 +28,7 @@ const Settings = () => {
       calorificValue: settings.gas.calorificValue,
     };
 
-    const electricy = {
+    const electricity = {
       basicPrice: settings.electricity.basicPrice,
       consumption: settings.electricity.consumption,
       consumptionType: settings.electricity.consumptionType,
@@ -48,7 +48,7 @@ const Settings = () => {
 
     const settingsData = {
       gas: gas,
-      electricity: electricy,
+      electricity: electricity,
       water: water,
     };
 
@@ -65,11 +65,11 @@ const Settings = () => {
       <Typography variant="h2">Settings</Typography>
       <Tabs value={activeTab} onChange={handleChange} centered>
         <Tab icon={<Whatshot />} label="Gas" />
-        <Tab icon={<Bolt />} label="Electricy" />
+        <Tab icon={<Bolt />} label="Electricity" />
         <Tab icon={<WaterDrop />} label="Water" />
       </Tabs>
       {activeTab === 0 && <Gas onUpdate={updateSettings} />}
-      {activeTab === 1 && <Electricy onUpdate={updateSettings} />}
+      {activeTab === 1 && <Electricity onUpdate={updateSettings} />}
       {activeTab === 2 && <Water onUpdate={updateSettings} />}
     </Stack>
   );

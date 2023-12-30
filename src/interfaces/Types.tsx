@@ -86,7 +86,7 @@ export interface IGasSettingsState {
   zNumber: number;
 }
 
-export interface IElectricySettingsState {
+export interface IElectricitySettingsState {
   consumptionType: string;
   consumption: number;
   workingPrice: number;
@@ -106,7 +106,7 @@ export interface IWaterSettingsState {
 
 export interface ISettings {
   gas: IGasSettingsState;
-  electricity: IElectricySettingsState;
+  electricity: IElectricitySettingsState;
   water: IWaterSettingsState;
 }
 

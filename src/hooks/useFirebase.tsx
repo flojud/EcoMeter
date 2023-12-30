@@ -30,11 +30,11 @@ import {
 
 import dayjs from "dayjs";
 import {
-  setElectricyExpenses,
-  setElectricyMeters,
-  setElectricySampledMeters,
-  setElectricyStats,
-} from "../store/slices/electricySlice";
+  setElectricityExpenses,
+  setElectricityMeters,
+  setElectricitySampledMeters,
+  setElectricityStats,
+} from "../store/slices/electricitySlice";
 import {
   setGasExpenses,
   setGasMeters,
@@ -43,13 +43,13 @@ import {
   setGasStats,
 } from "../store/slices/gasSlice";
 import {
-  setBasicPrice as _electricy_basicPrice,
-  setConsumption as _electricy_consumption,
-  setConsumptionType as _electricy_consumptionType,
-  setContractDate as _electricy_contractDate,
-  setRuntime as _electricy_runtime,
-  setWorkingPrice as _electricy_workingPrice,
-} from "../store/slices/settings/electricySettingsSlice";
+  setBasicPrice as _Electricity_basicPrice,
+  setConsumption as _Electricity_consumption,
+  setConsumptionType as _Electricity_consumptionType,
+  setContractDate as _Electricity_contractDate,
+  setRuntime as _Electricity_runtime,
+  setWorkingPrice as _Electricity_workingPrice,
+} from "../store/slices/settings/electricitySettingsSlice";
 import {
   setConsumption as _water_Consumption,
   setCubicMeterCharge as _water_CubicMeterCharge,
@@ -125,7 +125,7 @@ function useFirebase() {
       });
   };
 
-  const GetElectricyMeters = () => {
+  const GetElectricityMeters = () => {
     const result: IMeter[] = [];
     getMeters(MeterType.ELECTRICITY)
       .then((response) => {
@@ -134,22 +134,22 @@ function useFirebase() {
         });
       })
       .finally(() => {
-        dispatch(setElectricyMeters(result));
+        dispatch(setElectricityMeters(result));
 
-        const sampledElectricyMeters = interpolateMissingDays(result);
-        dispatch(setElectricySampledMeters(sampledElectricyMeters));
+        const sampledElectricityMeters = interpolateMissingDays(result);
+        dispatch(setElectricitySampledMeters(sampledElectricityMeters));
 
-        const electricyStats = calculateConsumptionStats(
-          sampledElectricyMeters
+        const ElectricityStats = calculateConsumptionStats(
+          sampledElectricityMeters
         );
-        dispatch(setElectricyStats(electricyStats));
+        dispatch(setElectricityStats(ElectricityStats));
 
-        const electricyExpenses = calculateElectricityExpenses(
-          electricyStats,
+        const ElectricityExpenses = calculateElectricityExpenses(
+          ElectricityStats,
           settings.electricity.basicPrice,
           settings.electricity.workingPrice
         );
-        dispatch(setElectricyExpenses(electricyExpenses));
+        dispatch(setElectricityExpenses(ElectricityExpenses));
       });
   };
 
@@ -189,7 +189,7 @@ function useFirebase() {
   const GetAllMeters = () => {
     GetGasMeters();
     GetWaterMeters();
-    GetElectricyMeters();
+    GetElectricityMeters();
 
     // Update the last update time
     dispatch(setLastUpdateTime(Date.now()));
@@ -263,15 +263,15 @@ function useFirebase() {
         dispatch(_gas_calorificValue(gas.calorificValue));
         dispatch(_gas_zNumber(gas.zNumber));
 
-        const electricy = data.electricity;
-        dispatch(_electricy_basicPrice(electricy.basicPrice));
-        dispatch(_electricy_consumption(electricy.consumption));
-        dispatch(_electricy_consumptionType(electricy.consumptionType));
+        const Electricity = data.electricity;
+        dispatch(_Electricity_basicPrice(Electricity.basicPrice));
+        dispatch(_Electricity_consumption(Electricity.consumption));
+        dispatch(_Electricity_consumptionType(Electricity.consumptionType));
         dispatch(
-          _electricy_contractDate(toDayjsObject(electricy.contractDate))
+          _Electricity_contractDate(toDayjsObject(Electricity.contractDate))
         );
-        dispatch(_electricy_runtime(electricy.runtime));
-        dispatch(_electricy_workingPrice(electricy.workingPrice));
+        dispatch(_Electricity_runtime(Electricity.runtime));
+        dispatch(_Electricity_workingPrice(Electricity.workingPrice));
 
         const water = data.water;
         dispatch(_water_basicMonthCharge(water.basicMonthCharge));

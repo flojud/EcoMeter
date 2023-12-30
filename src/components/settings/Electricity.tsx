@@ -19,14 +19,14 @@ import {
   setContractDate,
   setRuntime,
   setWorkingPrice,
-} from "../../store/slices/settings/electricySettingsSlice";
+} from "../../store/slices/settings/electricitySettingsSlice";
 import * as References from "../../utils/consumptionReferences";
 
-interface ElectricyProps {
+interface ElectricityProps {
   onUpdate: () => void;
 }
 
-const Electricy = ({ onUpdate }: ElectricyProps) => {
+const Electricity = ({ onUpdate }: ElectricityProps) => {
   const {
     consumptionType,
     consumption,
@@ -44,16 +44,16 @@ const Electricy = ({ onUpdate }: ElectricyProps) => {
     dispatch(setConsumptionType(newAlignment));
     switch (newAlignment) {
       case "single":
-        dispatch(setConsumption(References.ELECTRICY_SINGLE));
+        dispatch(setConsumption(References.ELECTRICITY_SINGLE));
         break;
       case "couple":
-        dispatch(setConsumption(References.ELECTRICY_COUPLE));
+        dispatch(setConsumption(References.ELECTRICITY_COUPLE));
         break;
       case "smallFamily":
-        dispatch(setConsumption(References.ELECTRICY_SMALLFAMILY));
+        dispatch(setConsumption(References.ELECTRICITY_SMALLFAMILY));
         break;
       case "largeFamily":
-        dispatch(setConsumption(References.ELECTRICY_LARGEFAMILY));
+        dispatch(setConsumption(References.ELECTRICITY_LARGEFAMILY));
         break;
       default:
         break;
@@ -192,4 +192,4 @@ const Electricy = ({ onUpdate }: ElectricyProps) => {
     </Box>
   );
 };
-export default Electricy;
+export default Electricity;

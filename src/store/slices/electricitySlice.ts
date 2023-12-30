@@ -20,30 +20,30 @@ const initialState: MeterState = {
   expenses: null,
 };
 
-export const electricySlice = createSlice({
-  name: "electricy",
+export const electricitySlice = createSlice({
+  name: "electricity",
   initialState,
   reducers: {
-    setElectricyMeters(state, action) {
+    setElectricityMeters(state, action) {
       state.meters = action.payload;
     },
-    setElectricySampledMeters: (state, action) => {
+    setElectricitySampledMeters: (state, action) => {
       state.sampledMeters = action.payload;
     },
-    setElectricyStats: (state, action) => {
+    setElectricityStats: (state, action) => {
       state.stats = action.payload;
     },
-    setElectricyExpenses: (state, action) => {
+    setElectricityExpenses: (state, action) => {
       state.expenses = action.payload;
     },
   },
 });
 
 export const {
-  setElectricyMeters,
-  setElectricySampledMeters,
-  setElectricyStats,
-  setElectricyExpenses,
-} = electricySlice.actions;
+  setElectricityMeters,
+  setElectricitySampledMeters,
+  setElectricityStats,
+  setElectricityExpenses,
+} = electricitySlice.actions;
 
-export default electricySlice.reducer;
+export default electricitySlice.reducer;

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IElectricySettingsState } from "../../../interfaces/Types";
+import { IElectricitySettingsState } from "../../../interfaces/Types";
 
-const initialState: IElectricySettingsState = {
+const initialState: IElectricitySettingsState = {
   consumptionType: "",
   consumption: 4250,
   workingPrice: 32.36,
@@ -10,8 +10,8 @@ const initialState: IElectricySettingsState = {
   runtime: 12,
 };
 
-export const electricySettingsSlice = createSlice({
-  name: "electricy",
+export const electricitySettingsSlice = createSlice({
+  name: "electricity",
   initialState,
   reducers: {
     setConsumptionType: (state, action) => {
@@ -42,6 +42,6 @@ export const {
   setBasicPrice,
   setContractDate,
   setRuntime,
-} = electricySettingsSlice.actions;
+} = electricitySettingsSlice.actions;
 
-export default electricySettingsSlice.reducer;
+export default electricitySettingsSlice.reducer;
