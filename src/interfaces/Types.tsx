@@ -132,3 +132,16 @@ export interface IExpenseEstimate {
   last30Days: number;
   last365Days: number;
 }
+
+export interface ILicense {
+  name: string;
+  licenses: string;
+  repository?: string;
+  publisher?: string;
+  url?: string;
+  path: string;
+  licenseFile?: string;
+  email?: string;
+  noticeFile?: string;
+  private?: boolean;
+}

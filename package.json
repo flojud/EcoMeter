@@ -42,7 +42,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "deploy": "npm run build && firebase deploy",
+    "license": "license-checker --production --direct --json --out ./src/utils/licenses.json",
+    "deploy": "npm run license && npm run build && firebase deploy",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

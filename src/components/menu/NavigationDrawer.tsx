@@ -10,6 +10,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContextProvider";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setItem } from "../../store/slices/menuSlice";
+import Header from "../header/Header";
 import NavigationRouter from "./NavigationRouter";
 
 const NavigationDrawer = () => {
@@ -19,6 +20,7 @@ const NavigationDrawer = () => {
 
   return (
     <>
+      <Header />
       <Box
         sx={{
           display: "flex",

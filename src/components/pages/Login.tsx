@@ -6,6 +6,7 @@ import BluredPlant from "../common/BluredPlant";
 
 const Login = () => {
   const authContext = useContext(AuthContext);
+
   return (
     <BluredPlant>
       <Stack
