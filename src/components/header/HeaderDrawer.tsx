@@ -37,6 +37,7 @@ const HeaderDrawer = ({ open, toggleDrawer }: HeaderDrawerProps) => {
           sx={{
             height: "100%",
             overflow: "auto",
+            m: 2,
           }}
         >
           {activeMenuitem === null && (

@@ -1,11 +1,11 @@
 import { Box, Stack, Typography } from "@mui/material";
-import { IConsumptionAvg, IExpenseEstimate } from "../../interfaces/Types";
+import { IConsumptionStats, IExpenseEstimate } from "../../interfaces/Types";
 import Title from "./Title";
 import Carousel from "./carousel/Carousel";
 
 interface ExpensesFactsProps {
   title: String;
-  stats: IConsumptionAvg;
+  stats: IConsumptionStats;
   expenses: IExpenseEstimate;
   unit: string;
   currency: string;
@@ -20,16 +20,19 @@ const ExpensesFacts = ({
   const slides = [
     {
       title: "Last 7 days",
+      totalConsumption: `${stats.totalLast7Days} ${unit}`,
       consumption: `${stats.avgLast7Days} ${unit}`,
       costs: `${expenses.last7Days} ${currency}`,
     },
     {
       title: "Last 30 days",
+      totalConsumption: `${stats.totalLast30Days} ${unit}`,
       consumption: `${stats.avgLast30Days} ${unit}`,
       costs: `${expenses.last30Days} ${currency}`,
     },
     {
       title: "Last 365 days",
+      totalConsumption: `${stats.totalLast365Days} ${unit}`,
       consumption: `${stats.avgLast365Days} ${unit}`,
       costs: `${expenses.last365Days} ${currency}`,
     },

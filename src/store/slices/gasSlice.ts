@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   IConsumption,
-  IConsumptionAvg,
+  IConsumptionStats,
   IExpenseEstimate,
   IMeter,
 } from "../../interfaces/Types";
@@ -10,7 +10,7 @@ interface MeterState {
   meters: IMeter[] | null; //m3
   metersKWh: IMeter[] | null;
   sampledMeters: IConsumption[] | null;
-  stats: IConsumptionAvg | null;
+  stats: IConsumptionStats | null;
   expenses: IExpenseEstimate | null;
 }
 

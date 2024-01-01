@@ -11,7 +11,7 @@ const A2HSInstaller = () => {
   const isPwa = useMediaQuery("all and (display-mode: standalone)");
 
   useEffect(() => {
-    if (!isPwa && window.supportsPwa) {
+    if (!isPwa && window.supportsPwa && window.deferredPWA !== undefined) {
       setTimeout(() => {
         setOpen(true);
       }, 2500);

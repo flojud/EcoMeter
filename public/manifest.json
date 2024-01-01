@@ -1,7 +1,7 @@
 {
   "theme_color": "#54D2D2",
   "background_color": "#98B3B3",
-  "display": "fullscreen",
+  "display": "standalone",
   "scope": "https://ecometer-1.web.app/",
   "start_url": "https://ecometer-1.web.app/",
   "name": "EcoMeter",

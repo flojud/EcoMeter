@@ -1,4 +1,11 @@
-import { Box, Card, CardContent, CardHeader, Chip } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Chip,
+  Typography,
+} from "@mui/material";
 import { ICarousleSlideBox } from "../../../interfaces/Types";
 
 interface ItemProps {
@@ -17,8 +24,16 @@ const Item = ({ slide }: ItemProps) => {
         <Card>
           <CardHeader title={slide.title} />
           <CardContent>
+            <Typography
+              variant="caption"
+              color="text.disabled"
+              gutterBottom
+              paragraph
+            >
+              Total {slide.totalConsumption}
+            </Typography>
             <Chip
-              label={slide.consumption}
+              label={`⌀ ${slide.consumption}`}
               sx={{ mr: 1 }}
               variant="outlined"
               color="primary"

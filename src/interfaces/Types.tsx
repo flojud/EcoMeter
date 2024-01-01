@@ -74,10 +74,13 @@ export interface IConsumption {
   consumption?: number;
 }
 
-export interface IConsumptionAvg {
+export interface IConsumptionStats {
   avgLast7Days: number;
   avgLast30Days: number;
   avgLast365Days: number;
+  totalLast7Days: number;
+  totalLast30Days: number;
+  totalLast365Days: number;
 }
 
 export interface IGasSettingsState {
@@ -123,6 +126,7 @@ export interface IDataChartsRefences {
 
 export interface ICarousleSlideBox {
   title: string;
+  totalConsumption: string;
   consumption: string;
   costs: string;
 }

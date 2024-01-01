@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import {
   CurrencyUnit,
   IConsumption,
-  IConsumptionAvg,
+  IConsumptionStats,
   IExpenseEstimate,
   IMeter,
 } from "../interfaces/Types";
@@ -49,7 +49,7 @@ export const converGasMetertM3ToKWh = (
 
 export const calculateConsumptionStats = (
   data: IConsumption[]
-): IConsumptionAvg => {
+): IConsumptionStats => {
   const today = dayjs();
   const last7Days = today.subtract(7, "day");
   const last30Days = today.subtract(30, "day");
@@ -70,15 +70,23 @@ export const calculateConsumptionStats = (
   const avgLast30Days = calculateAverageConsumption(filteredDataLast30Days);
   const avgLast365Days = calculateAverageConsumption(filteredDataLast365Days);
 
+  // Caclulate the total consumption for the last 7, 30 and 365 days
+  const totalLast7Days = Math.round(avgLast7Days * 7 * 1000) / 1000;
+  const totalLast30Days = Math.round(avgLast30Days * 20 * 1000) / 1000;
+  const totalLast365Days = Math.round(avgLast365Days * 365 * 1000) / 1000;
+
   return {
     avgLast7Days,
     avgLast30Days,
     avgLast365Days,
+    totalLast7Days,
+    totalLast30Days,
+    totalLast365Days,
   };
 };
 
 export const calculateGasExpenses = (
-  data: IConsumptionAvg,
+  data: IConsumptionStats,
   basicPrice: number,
   workingPrice: number
 ): IExpenseEstimate => {
@@ -107,7 +115,7 @@ export const calculateGasExpenses = (
 };
 
 export const calculateWaterExpenses = (
-  data: IConsumptionAvg,
+  data: IConsumptionStats,
   squareMeters: number,
   basicMonthCharge: number,
   cubicMeterCharge: number,
@@ -161,7 +169,7 @@ export const calculateWaterExpenses = (
 };
 
 export const calculateElectricityExpenses = (
-  data: IConsumptionAvg,
+  data: IConsumptionStats,
   workingPrice: number,
   basicPrice: number
 ) => {
