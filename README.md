@@ -4,6 +4,8 @@ Welcome to EcoMeter, your go-to solution for smart resource measurement and sust
 
 Sustainability starts with awareness, and EcoMeter is here to make it easier than ever. Our app empowers you to understand and actively reduce your environmental footprint by accurately tracking electricity, gas, and water consumption. Make informed decisions for a more sustainable future with EcoMeter!
 
+<img width="363" alt="demo" src="https://github.com/flojud/EcoMeter/assets/26573776/002d73a2-e037-412a-b2df-b5e6f918d4fe">
+
 ### Built With
 
 - [Typescript](https://www.typescriptlang.org/)
