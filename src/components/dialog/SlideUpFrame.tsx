@@ -40,15 +40,13 @@ const SlideUpFrame = ({
           zIndex: ZINDEX_SLIDE_UP_FRAME,
           height: "100%",
           width: "100%",
-          background: "rgba(0, 0, 0, 0.37)",
+          background: "rgba(0, 0, 0, 0.01)",
           backdropFilter: "blur(5px)",
         }}
       >
         <Paper
           sx={(theme) => ({
-            paddingTop: 3,
-            borderTopLeftRadius: 24,
-            borderTopRightRadius: 24,
+            paddingTop: 2,
             maxHeight: "80%",
             width: "100%",
             position: "absolute",
