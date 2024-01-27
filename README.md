@@ -38,7 +38,7 @@ To get started with EcoMeter, follow these steps:
 
 ## Contributing
 
-To contribute to Kindergarten Timetracker, follow these steps:
+To contribute to EcoMeter, follow these steps:
 
 - Fork this repository.
 - Create a branch: git checkout -b development.
